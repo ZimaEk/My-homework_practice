@@ -1,0 +1,41 @@
+!pip install pymorphy3
+import pymorphy3
+import nltk
+nltk.download('punkt')
+import string
+
+# Пользователь вводит текст и слово, которое хочет найти
+text = str(input('Введите текст: '))
+user_word = input('Введите слово, которое хотите посчитать: ')
+
+# Токенизируем текст по пробелам - переводим строку в список токенов
+tokens = nltk.word_tokenize(text)
+print(tokens)
+
+# Учитываем регистр - выравниваем текст по нижнему регистру
+def lower_case(text):
+    return list(word.lower() for word in text)
+lower_text = lower_case(tokens)
+
+# Удаляем пунктуацию - убираем лишние знаки из текста, чтобы корректно посчитать кол-во слов
+def remove_punkt(text):
+  no_punkt = []
+  for token in text:
+    if token in string.punctuation:
+      text.remove(token)
+    else:
+      no_punkt.append(token)
+  return no_punkt
+no_punkt_text = remove_punkt(tokens)
+
+# Добавляем счетчик определенного слова: если слово есть в тексте counter засчитывает его вхождение
+counter = 0
+for word in tokens:
+  if word == user_word:
+    #print(word)
+    counter +=1
+
+# Вывод результатов 
+print(f'Общее количество слов в тексте равно {len(no_punkt_text)}')
+print(f'Количество слова "{user_word}" в тексте равно {counter}')
+
